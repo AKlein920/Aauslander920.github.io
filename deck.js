@@ -1,11 +1,11 @@
 $(function() {
 
   console.log('deck file');
-  // grabbing buttons:
 
   //empty array to hold cards in play:
   var cardsInPlay = [];
 
+  // grabbing buttons:
   var $newGameBtn = $('#new-game');
   var $hitBtn = $('#hit');
   var $stayBtn = $('#stay');
@@ -73,67 +73,87 @@ $(function() {
          this.cards[m].face = this.faces[3];
        }
      }
-    //  console.log(this.cards);
-   }
+   },
+// experimenting with shuffle function to make life easier: (Fisher-Yates shuffle)
+   shuffle: function() {
+     var i = 0;
+     var j = 0;
+     var temp = null;
 
+       for (i = makeDeck.cards.length - 1; i > 0;  i-=1) {
+         j = Math.floor(Math.random() * (i + 1));
+         temp = makeDeck.cards[i];
+         makeDeck.cards[i] = makeDeck.cards[j];
+         makeDeck.cards[j] = temp;
+       }
+   }
  } //end of deck object
 
+// calling fucntions from makeDeck to create cards and shuffle deck:
   makeDeck.makeNum();
   makeDeck.makeFace();
   makeDeck.assignChar();
-
+  makeDeck.shuffle();
 
   // event handler for new game button:
    var dealRandomCards = function() {
-     // pick cards out of the deck at random to display:
-     var pCardOne = makeDeck.cards[Math.floor(Math.random() * makeDeck.cards.length)];
-     var pCardTwo = makeDeck.cards[Math.floor(Math.random() * makeDeck.cards.length)];
-     var dCardOne = makeDeck.cards[Math.floor(Math.random() * makeDeck.cards.length)];
-     var dCardTwo = makeDeck.cards[Math.floor(Math.random() * makeDeck.cards.length)];
+     var $allPlayerCards = $('.player-card');
+     $allPlayerCards.text('');
+     // pick cards out of the deck to display:
 
-    // take them from cards array:
-    makeDeck.cards.splice(pCardOne, 1);
-    makeDeck.cards.splice(pCardTwo, 1);
-    makeDeck.cards.splice(dCardOne, 1);
-    makeDeck.cards.splice(dCardTwo, 1);
+    if (makeDeck.cards.length > 0) {
+      var pCardOne = makeDeck.cards.pop();
+      var pCardTwo = makeDeck.cards.pop();
+      var dCardOne = makeDeck.cards.pop();
+      var dCardTwo = makeDeck.cards.pop();
+      cardsInPlay.push(pCardOne, pCardTwo, dCardOne, dCardTwo);
+    }
+      // else, if original deck has no cards, need to build a NEW deck here.
+    // put their text into card divs:
+    $pCardOne.text(pCardOne.face + pCardOne.value);
+    $pCardTwo.text(pCardTwo.face + pCardTwo.value);
+    $dCardOne.text(dCardOne.face + dCardOne.value);
 
-    // push them into empty cardsInPlay array:
-    cardsInPlay.push(pCardOne, pCardTwo, dCardOne, dCardTwo);
+    // tally & display dealer & player scores:
+    playerVals = pCardOne.value + pCardTwo.value;
+    $playerTally.text('Current score: ' + playerVals);
 
-     // put their text into card divs:
-     $pCardOne.text(pCardOne.face + pCardOne.value);
-     $pCardTwo.text(pCardTwo.face + pCardTwo.value);
-     $dCardOne.text(dCardOne.face + dCardOne.value);
+    dealerVals = dCardOne.value + dCardTwo.value;
+    $dealerTally.text('');
+} // end of new game button event handler
 
-     console.log(makeDeck.cards);
-    //  console.log(cardsInPlay);
-    //  console.log(pCardOne, pCardTwo, dCardOne, dCardTwo);
-
-     // tally & display dealer & player scores:
-     playerVals = pCardOne.value + pCardTwo.value;
-     $playerTally.text('Current score: ' + playerVals);
-
-     dealerVals = dCardOne.value + dCardTwo.value;
-     $dealerTally.text('');
-   } // end of new game button event handler
 
   // event listener for new game button:
   $newGameBtn.on('click', dealRandomCards);
 
   // event handler for hit me button:
   var hitMe = function() {
-    var nextCardOne = makeDeck.cards[Math.floor(Math.random() * makeDeck.cards.length)];
-    makeDeck.cards.splice(nextCardOne, 1);
-    cardsInPlay.push(nextCardOne);
-    $pCardThree.text(nextCardOne.face + nextCardOne.value);
-    $playerTally.text('Current score: ' + (playerVals + nextCardOne.value));
+    var nextCard = makeDeck.cards.pop();
+    cardsInPlay.push(nextCard);
 
-  
+    if ($pCardThree.is(':empty')) {
+      $pCardThree.text(nextCard.face + nextCard.value);
+      playerVals += nextCard.value;
+    } else if ($pCardFour.is(':empty')) {
+      $pCardFour.text(nextCard.face + nextCard.value);
+      playerVals += nextCard.value;
+    } else if ($pCardFive.is(':empty')) {
+      $pCardFive.text(nextCard.face + nextCard.value);
+      playerVals += nextCard.value;
+    }
 
-  }
+    $playerTally.text('Current score: ' + playerVals);
+    console.log(cardsInPlay);
+  } // end of hit me button event handler
 
   // event listener for hit me button:
   $hitBtn.on('click', hitMe);
 
+  // event handler for stay function:
+  var stay = function() {
+
+
+
+  }
 
 }); // end of window onload jquery functions

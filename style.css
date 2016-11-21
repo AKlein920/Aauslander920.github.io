@@ -47,7 +47,7 @@ body {
 #dealer-tally {
   display: inline-block;
   height: 80%;
-  width: 50%;
+  width: 30%;
   background: white;
   border: 1px solid black;
   line-height: 50px;
@@ -60,10 +60,10 @@ body {
   background: green;
 }
 
-#player-tally {
+.player-stats {
   display: inline-block;
   height: 80%;
-  width: 50%;
+  width: 30%;
   background: white;
   border: 1px solid black;
   line-height: 50px;
