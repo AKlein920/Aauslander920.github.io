@@ -1,30 +1,35 @@
 // console.log('hi');
-
-// declare variables for cards
-var suits = ['diamonds', 'hearts', 'spades', 'clubs'];
 var values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+var suits =  ['diamonds', 'hearts', 'spades', 'clubs'];
 var faces = ['♦', '♥', '♠', '♣'];
 
+// empty array to hold cards:
+var cards = [];
 
-// object constructor to make each new card
-var Card = function(suit) {
+// object constructor to make each new card:
+var Card = function(suit, value, face) {
   this.suit = suit;
-  this.value = null;
+  this.face = face;
+  this.value = value;
 }
 
-var makeDiamondNumbers = function() {
-  for (var i = 0; i < 10; i++) {
-    var eachDiamondNumber = new Card(suits[0]);
+//  object to make/contain the deck:
+var makeDeck = {
 
-
-    for (var j = 0; j < values.length; j++) {
-      var eachDiamondValue = values[i];
-      this.value = eachDiamondValue;
-      console.log(eachDiamondNumber);
+  // write a method to make the numbers:
+  makeNum: function() {
+      for (var i = 0; i < suits.length; i++) {
+        for (var j = 0; j < values.length; j++) {
+          var eachCard = new Card(suits[i], values[j]);
+          cards.push(eachCard);
+          }
+        }
       }
-  }
-}
-makeDiamondNumbers();
+    }
+
+
+makeDeck.makeNum();
+console.log(cards);
 
 //   }
 //   for (var j = 0; j < values.length; j++) {
