@@ -7,7 +7,8 @@
       integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
       crossorigin="anonymous"></script>
 
-    <script type="text/javascript" src='app.js'></script>
+    <script type="text/javascript" src="buttons.js"></script>
+    <script type="text/javascript" src='deck.js'></script>
     <link rel="stylesheet" href="style.css"/>
     <title></title>
   </head>
@@ -17,15 +18,34 @@
 <div id='table-container'>
 
     <div id='dealer-div'>
-      <div id='dealer-hand-container'></div>
+      <div id='dealer-hand-container'>
+          <div class='dealer-card'></div>
+          <div class='dealer-card'></div>
+          <div class='dealer-card'></div>
+          <div class='dealer-card'></div>
+          <div class='dealer-card'></div>
+      </div>
       <div id='dealer-stats-container'></div>
     </div>
 
 
     <div id='player-div'>
       <div id='player-stats-container'></div>
-      <div id='player-hand-container'></div>
+      <div id='player-hand-container'>
+        <div class='player-card'></div>
+        <div class='player-card'></div>
+        <div class='player-card'></div>
+        <div class='player-card'></div>
+        <div class='player-card'></div>
+      </div>
+
+      <div id='button-container'>
+        <button id='hit'>HIT ME!</button>
+        <button id='stay'>STAY</button>
+      </div>
     </div>
+
+
 
 </div>
   </body>

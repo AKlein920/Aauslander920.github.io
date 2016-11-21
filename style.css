@@ -7,22 +7,29 @@ body {
 #table-container {
   display: inline-block;
   border: 1px solid black;
-  width: 400px;
-  height: 728px;
+  width: 700px;
+  height: 800px;
 }
 
 #dealer-div {
   margin-bottom: 5%;
   width: 90%;
-  height: 350px;
+  height: 250px;
   display: inline-block;
   background: red;
 }
 
 #dealer-hand-container {
-  height: 270px;
+  height: 180px;
   width: 95%;
   background: yellow;
+  display: inline-block;
+}
+
+.dealer-card {
+  height: 150px;
+  width: 100px;
+  background: blue;
   display: inline-block;
 }
 
@@ -41,15 +48,22 @@ body {
 }
 
 #player-hand-container {
-  height: 270px;
+  height: 180px;
   width: 95%;
   background: yellow;
+  display: inline-block;
+}
+
+.player-card {
+  height: 150px;
+  width: 100px;
+  background: blue;
   display: inline-block;
 }
 
 #player-div {
   background: red;
   width: 90%;
-  height: 350px;
+  height: 300px;
   display: inline-block;
 }
