@@ -31,6 +31,10 @@ body {
   width: 100px;
   background: blue;
   display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 150px;
+  font-size: 55px;
 }
 
 #dealer-stats-container {
@@ -40,11 +44,29 @@ body {
   background: green;
 }
 
+#dealer-tally {
+  display: inline-block;
+  height: 80%;
+  width: 50%;
+  background: white;
+  border: 1px solid black;
+  line-height: 50px;
+}
+
 #player-stats-container {
   display: inline-block;
   height: 20%;
   width: 95%;
   background: green;
+}
+
+#player-tally {
+  display: inline-block;
+  height: 80%;
+  width: 50%;
+  background: white;
+  border: 1px solid black;
+  line-height: 50px;
 }
 
 #player-hand-container {
@@ -59,6 +81,10 @@ body {
   width: 100px;
   background: blue;
   display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 150px;
+  font-size: 55px;
 }
 
 #player-div {
