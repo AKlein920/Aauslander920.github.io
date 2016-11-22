@@ -66,7 +66,7 @@ body {
   width: 30%;
   background: white;
   border: 1px solid black;
-  line-height: 50px;
+  /*line-height: 50px;*/
 }
 
 #player-hand-container {
@@ -77,12 +77,12 @@ body {
 }
 
 .player-card {
+  margin: 1%;
   height: 150px;
   width: 100px;
   background: blue;
   display: inline-block;
   text-align: center;
-  vertical-align: middle;
   line-height: 150px;
   font-size: 55px;
 }

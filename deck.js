@@ -2,27 +2,33 @@ $(function() {
 
   console.log('deck file');
 
-  //empty array to hold cards in play:
-  var cardsInPlay = [];
+// player object
+var player = {
+  pHand: [],
+  pBank: 100
+}
+
+// dealer object
+var dealer = {
+  dHand: [],
+  dBank: 100
+}
 
   // grabbing buttons:
   var $newGameBtn = $('#new-game');
   var $hitBtn = $('#hit');
   var $stayBtn = $('#stay');
 
+  // grabbing player & dealer containers:
+  $pHandContainer = $('#player-hand-container');
+  $dHandContainer = $('#dealer-hand-container');
+
   // grabbing player & dealer tallies:
   var $dealerTally = $('#dealer-tally');
   var $playerTally = $('#player-tally');
 
-  // grabbing player & dealer cards:
-  var $pCardOne = $('#p-card-one');
-  var $pCardTwo = $('#p-card-two');
-  var $pCardThree = $('#p-card-three');
-  var $pCardFour = $('#p-card-four');
-  var $pCardFive = $('#p-card-five');
-
-  var $dCardOne = $('#d-card-one');
-  var $dCardTwo = $('d-card-two');
+  // grabbing player text box:
+  var $playerText = $('#player-text');
 
   // object constructor to make each new card:
   var Card = function(suit, value, face) {
@@ -97,63 +103,108 @@ $(function() {
 
   // event handler for new game button:
    var dealRandomCards = function() {
-     var $allPlayerCards = $('.player-card');
-     $allPlayerCards.text('');
+     player.pHand = [];
+     dealer.dHand = [];
      // pick cards out of the deck to display:
-
     if (makeDeck.cards.length > 0) {
       var pCardOne = makeDeck.cards.pop();
       var pCardTwo = makeDeck.cards.pop();
       var dCardOne = makeDeck.cards.pop();
-      var dCardTwo = makeDeck.cards.pop();
-      cardsInPlay.push(pCardOne, pCardTwo, dCardOne, dCardTwo);
+      player.pHand.push(pCardOne, pCardTwo);
+      dealer.dHand.push(dCardOne);
     }
       // else, if original deck has no cards, need to build a NEW deck here.
-    // put their text into card divs:
-    $pCardOne.text(pCardOne.face + pCardOne.value);
-    $pCardTwo.text(pCardTwo.face + pCardTwo.value);
-    $dCardOne.text(dCardOne.face + dCardOne.value);
 
-    // tally & display dealer & player scores:
-    playerVals = pCardOne.value + pCardTwo.value;
-    $playerTally.text('Current score: ' + playerVals);
+    // iterate over the pHand array, create a new div with each pHand element info, append to body in player spot.
 
-    dealerVals = dCardOne.value + dCardTwo.value;
-    $dealerTally.text('');
+    for (var i = 0; i < player.pHand.length; i++) {
+      var pCardValue = player.pHand[i].value;
+      var pCardFace = player.pHand[i].face;
+      var $pCard = $('<div>');
+      $pCard.text(pCardValue + pCardFace);
+      $pCard.addClass('player-card');
+      $pHandContainer.append($pCard);
+    }
+
+    var playerVals = 0;
+    for (var j = 0; j < player.pHand.length; j++) {
+      playerVals = playerVals + player.pHand[j].value;
+    }
+
+    $playerText.text('Current score: ' + playerVals);
+
+    for (var k = 0; k < dealer.dHand.length; k++) {
+      var dCardValue = dealer.dHand[k].value;
+      var dCardFace = dealer.dHand[k].face;
+      $dCard = $('<div>');
+      $dCard.text(dCardValue + dCardFace);
+      $dCard.addClass('dealer-card');
+      $dHandContainer.append($dCard);
+    }
+
+    var dealerVals = 0;
+    for (var l = 0; l < dealer.dHand.length; l++) {
+      dealerVals = dealerVals + dealer.dHand[l].value;
+    }
+    console.log(dealerVals);
+
+    $newGameBtn.hide();
+    $hitBtn.show();
+    $stayBtn.show();
 } // end of new game button event handler
-
 
   // event listener for new game button:
   $newGameBtn.on('click', dealRandomCards);
-
   // event handler for hit me button:
   var hitMe = function() {
     var nextCard = makeDeck.cards.pop();
-    cardsInPlay.push(nextCard);
+    player.pHand.push(nextCard);
+    $pNextCard = $('<div>');
+    $pNextCard.text(nextCard.value + nextCard.face);
+    $pNextCard.addClass('player-card');
+    $pHandContainer.append($pNextCard);
 
-    if ($pCardThree.is(':empty')) {
-      $pCardThree.text(nextCard.face + nextCard.value);
-      playerVals += nextCard.value;
-    } else if ($pCardFour.is(':empty')) {
-      $pCardFour.text(nextCard.face + nextCard.value);
-      playerVals += nextCard.value;
-    } else if ($pCardFive.is(':empty')) {
-      $pCardFive.text(nextCard.face + nextCard.value);
-      playerVals += nextCard.value;
+    var currentPlayerVals = 0;
+    for (var i = 0; i < player.pHand.length; i++) {
+      currentPlayerVals = currentPlayerVals + player.pHand[i].value;
+    }
+    $playerText.text('Current score: ' + currentPlayerVals);
+
+    if (currentPlayerVals > 21) {
+      $playerText.text('Current score: ' + currentPlayerVals + ' Bust! Click New Game to play again');
+      $hitBtn.hide();
+      $stayBtn.hide();
+      $newGameBtn.show();
+      var $playerCards = $('.player-card');
+      var $dealerCards = $('.dealer-card');
+      $playerCards.remove();
+      $dealerCards.remove();
     }
 
-    $playerTally.text('Current score: ' + playerVals);
-    console.log(cardsInPlay);
-  } // end of hit me button event handler
+} // end of hit me button event handler
 
   // event listener for hit me button:
   $hitBtn.on('click', hitMe);
 
   // event handler for stay function:
   var stay = function() {
+    console.log(dealerVals);
 
+    $dCardTwo.text(dCardTwo.face + dCardTwo.value);
 
+    if (dealerVals >= 17) {
+      var dNextCard = makeDeck.cards.pop();
+      dHand.push(dNextCard);
+
+      $dCardThree.text(dNextCard.face + dNextCard.value);
+      dealerVals += nextCard.value;
+      $dealerTally.show();
+      $dealerTally.text('Current score: ' + dealerVals);
+    }
 
   }
+
+  // event listener for stay button:
+  $stayBtn.on('click', stay);
 
 }); // end of window onload jquery functions
