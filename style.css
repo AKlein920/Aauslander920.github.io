@@ -27,6 +27,7 @@ body {
 }
 
 .dealer-card {
+  margin: 1%;
   height: 150px;
   width: 100px;
   background: blue;

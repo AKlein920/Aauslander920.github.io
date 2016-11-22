@@ -31,56 +31,51 @@ var dealer = {
   var $playerText = $('#player-text');
 
   // object constructor to make each new card:
-  var Card = function(suit, value, face) {
-    this.suit = suit;
+  var Card = function(face, value, rank) {
+    // this.suit = suit;
     this.face = face;
     this.value = value;
+    this.rank = rank;
   }
 
   //  object to make/contain the deck:
   var makeDeck = {
     // empty array to hold cards:
     cards: [],
-    suits: ['diamonds', 'hearts', 'spades', 'clubs'],
-    values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     faces: ['♦', '♥', '♠', '♣'],
+    ranksFaces: ['J', 'Q', 'K'],
+    ranksNumbers: [2, 3, 4, 5, 6, 7, 8, 9, 10],
+    ranksAces: ['A'],
 
     // write a method to make the numbers:
     makeNum: function() {
-      for (var i = 0; i < this.suits.length; i++) {
-        for (var j = 0; j < this.values.length; j++) {
-          var eachNum = new Card(this.suits[i], this.values[j]);
+      for (var i = 0; i < this.faces.length; i++) {
+        for (var j = 0; j < this.ranksNumbers.length; j++) {
+          var eachNum = new Card(this.faces[i], this.ranksNumbers[j], this.ranksNumbers[j]);
           this.cards.push(eachNum);
-          }
-        }
-      },
-
-    // write a method to make the face cards:
-    makeFace: function() {
-      var faceCards = ['jack', 'queen', 'king'];
-      for (var k = 0; k < this.suits.length; k++) {
-        for (var l = 0; l < faceCards.length; l++) {
-          var eachFace = new Card(this.suits[k], 10);
-          this.cards.push(eachFace);
         }
       }
     },
 
-   // write method to assign unicode characters to cards:
-   assignChar: function() {
-     for (var m = 0; m < this.cards.length; m++) {
-       if (this.cards[m].suit == 'diamonds') {
-         this.cards[m].face = this.faces[0];
-       } else if (this.cards[m].suit == 'hearts') {
-         this.cards[m].face = this.faces[1];
-       } else if (this.cards[m].suit == 'spades') {
-         this.cards[m].face = this.faces[2];
-       } else if (this.cards[m].suit == 'clubs') {
-         this.cards[m].face = this.faces[3];
-       }
-     }
-   },
-// experimenting with shuffle function to make life easier: (Fisher-Yates shuffle)
+    // write a method to make the face cards:
+    makeFace: function() {
+      for (var i = 0; i < this.faces.length; i++) {
+        for (var k = 0; k < this.ranksFaces.length; k++) {
+          this.cards.push(new Card(this.faces[i], 10, this.ranksFaces[k]));
+        }
+      }
+    },
+
+  // write a method to make the Aces with a value of 1:
+  makeAce: function() {
+    for (var i = 0; i < this.faces.length; i++) {
+      for (var k = 0; k < this.ranksAces.length; k++) {
+        this.cards.push(new Card(this.faces[i], 1, this.ranksAces[k]));
+      }
+    }
+  },
+
+// Shuffle function to make life easier: (Fisher-Yates shuffle)
    shuffle: function() {
      var i = 0;
      var j = 0;
@@ -98,7 +93,7 @@ var dealer = {
 // calling fucntions from makeDeck to create cards and shuffle deck:
   makeDeck.makeNum();
   makeDeck.makeFace();
-  makeDeck.assignChar();
+  makeDeck.makeAce();
   makeDeck.shuffle();
 
   // event handler for new game button:
@@ -110,18 +105,19 @@ var dealer = {
       var pCardOne = makeDeck.cards.pop();
       var pCardTwo = makeDeck.cards.pop();
       var dCardOne = makeDeck.cards.pop();
+      var dCardTwo = makeDeck.cards.pop();
       player.pHand.push(pCardOne, pCardTwo);
-      dealer.dHand.push(dCardOne);
+      dealer.dHand.push(dCardOne, dCardTwo);
     }
       // else, if original deck has no cards, need to build a NEW deck here.
 
     // iterate over the pHand array, create a new div with each pHand element info, append to body in player spot.
 
     for (var i = 0; i < player.pHand.length; i++) {
-      var pCardValue = player.pHand[i].value;
       var pCardFace = player.pHand[i].face;
+      var pCardRank = player.pHand[i].rank;
       var $pCard = $('<div>');
-      $pCard.text(pCardValue + pCardFace);
+      $pCard.text(pCardFace + pCardRank);
       $pCard.addClass('player-card');
       $pHandContainer.append($pCard);
     }
@@ -133,20 +129,17 @@ var dealer = {
 
     $playerText.text('Current score: ' + playerVals);
 
-    for (var k = 0; k < dealer.dHand.length; k++) {
-      var dCardValue = dealer.dHand[k].value;
-      var dCardFace = dealer.dHand[k].face;
-      $dCard = $('<div>');
-      $dCard.text(dCardValue + dCardFace);
-      $dCard.addClass('dealer-card');
-      $dHandContainer.append($dCard);
-    }
+    // show the first dealer card in the dHand:
+    $dCard = $('<div>');
+    $dCard.text(dealer.dHand[0].face + dealer.dHand[0].rank);
+    $dCard.addClass('dealer-card');
+    $dHandContainer.append($dCard);
+
 
     var dealerVals = 0;
     for (var l = 0; l < dealer.dHand.length; l++) {
       dealerVals = dealerVals + dealer.dHand[l].value;
     }
-    console.log(dealerVals);
 
     $newGameBtn.hide();
     $hitBtn.show();
@@ -160,7 +153,7 @@ var dealer = {
     var nextCard = makeDeck.cards.pop();
     player.pHand.push(nextCard);
     $pNextCard = $('<div>');
-    $pNextCard.text(nextCard.value + nextCard.face);
+    $pNextCard.text(nextCard.face + nextCard.rank);
     $pNextCard.addClass('player-card');
     $pHandContainer.append($pNextCard);
 
