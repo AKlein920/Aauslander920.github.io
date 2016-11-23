@@ -2,7 +2,6 @@ console.log('deck file');
 
 $(function() {
   // grabbing buttons:
-  var $dealBtn = $('#deal');
   var $hitBtn = $('#hit');
   var $stayBtn = $('#stay');
   var $clearBtn = $('#clear');
@@ -12,9 +11,18 @@ $(function() {
   $pHandContainer = $('#player-hand-container');
   $dHandContainer = $('#dealer-hand-container');
 
-  // grabbing player & dealer tallies:
+  // grabbing player & dealer banks & dealer tally:
   var $dealerTally = $('#dealer-tally');
-  var $playerTally = $('#player-tally');
+  var $playerBank = $('#player-bank');
+  var $dealerBank = $('#d-bank');
+
+  // grabbing player input & submit button:
+  var $playerInput = $('#input');
+  var $playerBet = $('#submit-bet');
+
+// making starting bank values global:
+  var pUpdatedBank = 100;
+  var dUpdatedBank = 100;
 
   // grabbing player text box:
   var $playerText = $('#player-text');
@@ -100,6 +108,15 @@ var player = {
     return pHandVal;
   },
   pBank: 100,
+  pBetValue: function() {
+    var storeBet = $playerInput.val();
+    return storeBet;
+  },
+  pBet: function() {
+    $playerBank.html('Your bet this hand was: $' + player.pBetValue() + '<br> You currently have: $' + pUpdatedBank);
+    // $playerInput.val('');
+    dealer.deal();
+  },
   pHitMe: function() {
       var nextCard = makeDeck.cards.pop();
       player.pHand.push(nextCard);
@@ -111,23 +128,34 @@ var player = {
       $playerText.text('Current score: ' + player.pHandValue());
 
       if (player.pHandValue() > 21) {
-        $playerText.text('Current score: ' + player.pHandValue() + ' Bust! Click Deal to play again');
+        $playerText.html('Bust! Sorry, you lose. Bet again! Score: ' + player.pHandValue());
+        pUpdatedBank = pUpdatedBank - player.pBetValue();
+        console.log(pUpdatedBank);
+        $playerBank.html('You now have: $' + pUpdatedBank);
+        dUpdatedBank = parseFloat(dUpdatedBank) + parseFloat(player.pBetValue());
+        $dealerBank.html('Yay money! Bank: $' + dUpdatedBank);
+
         player.pHand = [];
         dealer.dHand = [];
-      // empty the player & dealer containers here?
         $hitBtn.hide();
         $stayBtn.hide();
-        $dealBtn.show();
         $resetBtn.hide();
+        $playerBet.on('click', player.pBet);
+
+
       }
 
       if (player.pHandValue() === 21) {
-        $playerText.text('You win! Play again!');
+        $playerText.html('You win! Score: ' + player.pHandValue() + '<br> Bet again to continue!');
+        pUpdatedBank = parseFloat(pUpdatedBank) + parseFloat(player.pBetValue());
+        console.log(pUpdatedBank);
+        $playerBank.html('High roller! You now have: $' + pUpdatedBank);
 
         $hitBtn.hide();
         $stayBtn.hide();
-        $dealBtn.show();
         $resetBtn.hide();
+        $playerBet.on('click', player.pBet);
+
       }
     }
 
@@ -145,12 +173,17 @@ var dealer = {
     return dHandVal;
   },
   deal: function() {
-  //////// MUST CLEAR DIVS ON EACH DEAL /////////
+  // Clear card containers on each deal:
   player.pHand = [];
   dealer.dHand = [];
   $dealerTally.empty();
   $pHandContainer.empty();
   $dHandContainer.empty();
+  $playerBet.off();
+
+  $dealerTally.text("Current score: wouldn't you like to know");
+
+  ////bank stuff goes here///////
 
     if (makeDeck.cards.length == 2) {
       makeDeck.makeIt();
@@ -178,9 +211,6 @@ var dealer = {
        $dCard.addClass('dealer-card');
        $dHandContainer.append($dCard);
 
-      //  dealer.dHandValue();
-
-       $dealBtn.hide();
        $clearBtn.hide();
        $hitBtn.show();
        $stayBtn.show();
@@ -191,7 +221,21 @@ var dealer = {
 ///////////////////////////////////////////////////////////////////////////
 
 
-///////////////////////////////////////////////////////////////////////////
+/////************///// GAME BEGINS /////************/////
+
+$playerBank.html('Place your bet to begin a round. <br> You have: ' + '$' +player.pBank);
+
+$dealerBank.html("Yay money! Bank: $" + dealer.dBank);
+
+$dealerTally.text('Some witty thing goes here');
+
+$hitBtn.hide();
+$stayBtn.hide();
+$clearBtn.hide();
+$resetBtn.hide();
+
+
+$playerBet.on('click', player.pBet);
 
 
 
@@ -205,7 +249,6 @@ var playerStay = function(){
       console.log(dealer.dHandValue());
     }
 
-
   for (var i = 1; i < dealer.dHand.length; i++) {
     var $dCards = $('<div>');
     $dCards.text(dealer.dHand[i].face + dealer.dHand[i].rank)
@@ -213,26 +256,49 @@ var playerStay = function(){
     $dHandContainer.append($dCards);
   }
 
+  /////// Winning conditions ///////
+
     if (dealer.dHandValue() > 21 || player.pHandValue() === 21) {
-      $playerText.text('You win! Score: ' + player.pHandValue());
-    } else if (dealer.dHandValue() === 21 || player.pHandValue() > 21) {
-      $playerText.text('You lose. Score: ' + player.pHandValue());
-    } else if (dealer.dHandValue() > player.pHandValue()) {
-      $playerText.text('You lose. Score: ' + player.pHandValue());
-    } else if (dealer.dHandValue() === player.pHandValue()) {
-      $playerText.text('You tied with the dealer. Score: ' + player.pHandValue());
+      $playerText.html('You win! Score: ' + player.pHandValue() + '<br> Bet again to continue!');
+      pUpdatedBank = parseFloat(pUpdatedBank) + parseFloat(player.pBetValue());
+      console.log(pUpdatedBank);
+      $playerBank.html('High roller! You now have: $' + pUpdatedBank);
+
     } else if (player.pHandValue() > dealer.dHandValue()) {
-      $playerText.text('You win! Score: ' + player.pHandValue());
+      $playerText.html('You win! Score: ' + player.pHandValue() + '<br> Bet again to continue!');
+      pUpdatedBank = parseFloat(pUpdatedBank) + parseFloat(player.pBetValue());
+      console.log(pUpdatedBank);
+      $playerBank.html('High roller! You now have: $' + pUpdatedBank);
+
+  /////// Losing conditions ///////
+
+    } else if (dealer.dHandValue() > player.pHandValue()) {
+      $playerText.html('Sorry, you lose. Bet again! Score: ' + player.pHandValue());
+      pUpdatedBank = pUpdatedBank - player.pBetValue();
+      console.log(pUpdatedBank);
+      $playerBank.html('You now have: $' + pUpdatedBank);
+      dUpdatedBank = parseFloat(dUpdatedBank) + parseFloat(player.pBetValue());
+      $dealerBank.html('Yay money! Bank: $' + dUpdatedBank);
+
+    } else if (dealer.dHandValue() === 21 || player.pHandValue() > 21) {
+      $playerText.html('Sorry, you lose. Bet again! Score: ' + player.pHandValue());
+      pUpdatedBank = pUpdatedBank - player.pBetValue();
+      console.log(pUpdatedBank);
+      $playerBank.html('You now have: $' + pUpdatedBank);
+      dUpdatedBank = parseFloat(dUpdatedBank) + parseFloat(player.pBetValue());
+      $dealerBank.html('Yay money! Bank: $' + dUpdatedBank);
+
+/////// Tie condition ///////
+
+    } else if (dealer.dHandValue() === player.pHandValue()) {
+      $playerText.html('You tied with the dealer. Score: ' + player.pHandValue() + '<br> Bet again!');
     }
+
     $dealerTally.text('Current score: ' + dealer.dHandValue());
     $hitBtn.hide();
     $stayBtn.hide();
-    $dealBtn.show();
-console.log(dealer.dHand);
+    $playerBet.on('click', player.pBet);
 }
-
-// event listener for new game button:
-$dealBtn.on('click', dealer.deal);
 
 // event listener for hit me button:
 $hitBtn.on('click', player.pHitMe);

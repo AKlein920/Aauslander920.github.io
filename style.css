@@ -6,7 +6,6 @@ body {
 
 #table-container {
   display: inline-block;
-  border: 1px solid black;
   width: 700px;
   height: 800px;
 }
@@ -28,14 +27,14 @@ body {
 
 .dealer-card {
   margin: 1%;
-  height: 150px;
-  width: 100px;
+  height: 100px;
+  width: 80px;
   background: blue;
   display: inline-block;
   text-align: center;
   vertical-align: middle;
-  line-height: 150px;
-  font-size: 55px;
+  line-height: 100px;
+  font-size: 40px;
 }
 
 #dealer-stats-container {
@@ -47,11 +46,18 @@ body {
 
 #dealer-tally {
   display: inline-block;
-  height: 80%;
-  width: 30%;
+  height: 20%;
+  width: 50%;
   background: white;
-  border: 1px solid black;
   line-height: 50px;
+}
+
+#d-bank {
+  display: inline-block;
+  height: 20%;
+  width: 40%;
+  line-height: 50px;
+  background: white;
 }
 
 #player-stats-container {
@@ -61,13 +67,24 @@ body {
   background: green;
 }
 
-.player-stats {
+#player-bank {
   display: inline-block;
-  height: 80%;
-  width: 30%;
+  height: 15%;
+  width: 40%;
   background: white;
-  border: 1px solid black;
-  /*line-height: 50px;*/
+}
+
+#inputbox {
+  display: inline-block;
+  height: 15%;
+  width: 55%;
+  background: white;
+}
+
+input {
+  display: block;
+  margin: 0 auto;
+  vertical-align: middle;
 }
 
 #player-hand-container {
@@ -79,13 +96,13 @@ body {
 
 .player-card {
   margin: 1%;
-  height: 150px;
-  width: 100px;
+  height: 100px;
+  width: 80px;
   background: blue;
   display: inline-block;
   text-align: center;
-  line-height: 150px;
-  font-size: 55px;
+  line-height: 100px;
+  font-size: 40px;
 }
 
 #player-div {
