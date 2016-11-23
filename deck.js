@@ -84,16 +84,10 @@ $(function() {
      makeDeck.makeFace();
      makeDeck.makeAce();
      makeDeck.shuffle();
-     var $playerCards = $('.player-card');
-     var $dealerCards = $('.dealer-card');
-       if ($dHandContainer.contents() == true || $pHandContainer.contents() == true) {
-         $pHandContainer.empty();
-         $dHandContainer.empty();
-       }
    }
 
  } //end of deck object
-
+makeDeck.makeIt();
 ///////////////////////////////////////////////////////////////////////////
 // player & dealer objects:
 var player = {
@@ -126,24 +120,18 @@ var player = {
         $dealBtn.show();
         $resetBtn.hide();
       }
-    },
 
-  playerStay: function(){
-    dealer.dHandValue();
-    dealer.dealerHit();
+      if (player.pHandValue() === 21) {
+        $playerText.text('You win! Play again!');
 
-    for (var i = 0; i < dealer.dHand.length; i++) {
-      var $dCards = $('<div>');
-      $dCards.text(dealer.dHand[i].face + dealer.dHand[i].rank)
-      $dCards.addClass('dealer-card');
-      $dHandContainer.append($dCards);
-
-    dealer.outcomes();
-
+        $hitBtn.hide();
+        $stayBtn.hide();
+        $dealBtn.show();
+        $resetBtn.hide();
+      }
     }
 
 
-  }
 } // end of player object
 /////////////////////////////////////////////////////////////////////////////
 var dealer = {
@@ -157,18 +145,25 @@ var dealer = {
     return dHandVal;
   },
   deal: function() {
-  //////// NOT WORKING RIGHT NOW /////////
+  //////// MUST CLEAR DIVS ON EACH DEAL /////////
+  player.pHand = [];
+  dealer.dHand = [];
+  $dealerTally.empty();
+  $pHandContainer.empty();
+  $dHandContainer.empty();
 
+    if (makeDeck.cards.length == 2) {
+      makeDeck.makeIt();
+    } else if (makeDeck.cards.length > 0) {
+      var pCardOne = makeDeck.cards.pop();
+      var pCardTwo = makeDeck.cards.pop();
+      var dCardOne = makeDeck.cards.pop();
+      var dCardTwo = makeDeck.cards.pop();
+      player.pHand.push(pCardOne, pCardTwo);
+      dealer.dHand.push(dCardOne, dCardTwo);
+    }
       // pick cards out of the deck to display:
-     if (makeDeck.cards.length > 0) {
-       var pCardOne = makeDeck.cards.pop();
-       var pCardTwo = makeDeck.cards.pop();
-       var dCardOne = makeDeck.cards.pop();
-       var dCardTwo = makeDeck.cards.pop();
-       player.pHand.push(pCardOne, pCardTwo);
-       dealer.dHand.push(dCardOne, dCardTwo);
-     }
-       // else, if original deck has no cards, need to build a NEW deck here.
+
        for (var i = 0; i < player.pHand.length; i++) {
          var $pCard = $('<div>');
          $pCard.text(player.pHand[i].face + player.pHand[i].rank);
@@ -186,20 +181,38 @@ var dealer = {
       //  dealer.dHandValue();
 
        $dealBtn.hide();
+       $clearBtn.hide();
        $hitBtn.show();
        $stayBtn.show();
-     }, // end of new game button event handler
+     } // end of new game button event handler
 
-  dealerHit: function() {
+
+} //end of dealer object
+///////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////////////////////////////////
+var playerStay = function(){
+
     while (dealer.dHandValue() < 17) {
       var dNextCard = makeDeck.cards.pop();
       dealer.dHand.push(dNextCard);
       dealer.dHandValue();
+      console.log(dealer.dHandValue());
     }
-    return dealer.dHand;
-  },
 
-  outcomes: function() {
+
+  for (var i = 1; i < dealer.dHand.length; i++) {
+    var $dCards = $('<div>');
+    $dCards.text(dealer.dHand[i].face + dealer.dHand[i].rank)
+    $dCards.addClass('dealer-card');
+    $dHandContainer.append($dCards);
+  }
+
     if (dealer.dHandValue() > 21 || player.pHandValue() === 21) {
       $playerText.text('You win! Score: ' + player.pHandValue());
     } else if (dealer.dHandValue() === 21 || player.pHandValue() > 21) {
@@ -208,18 +221,15 @@ var dealer = {
       $playerText.text('You lose. Score: ' + player.pHandValue());
     } else if (dealer.dHandValue() === player.pHandValue()) {
       $playerText.text('You tied with the dealer. Score: ' + player.pHandValue());
+    } else if (player.pHandValue() > dealer.dHandValue()) {
+      $playerText.text('You win! Score: ' + player.pHandValue());
     }
     $dealerTally.text('Current score: ' + dealer.dHandValue());
     $hitBtn.hide();
     $stayBtn.hide();
-  }
-
-
-
-
-
-} //end of dealer object
-///////////////////////////////////////////////////////////////////////////
+    $dealBtn.show();
+console.log(dealer.dHand);
+}
 
 // event listener for new game button:
 $dealBtn.on('click', dealer.deal);
@@ -228,12 +238,6 @@ $dealBtn.on('click', dealer.deal);
 $hitBtn.on('click', player.pHitMe);
 
 // event handler for stay function:
-$stayBtn.on('click', player.playerStay);
-///////////////////////////////////////////////////////////////////////////
-
-  makeDeck.makeIt();
-
-
-///////////////////////////////////////////////////////////////////////////
+$stayBtn.on('click', playerStay);
 
 }); // end of window onload jquery functions
