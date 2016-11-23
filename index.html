@@ -10,7 +10,7 @@
 
     <script type="text/javascript" src='deck.js'></script>
 
-
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:700" rel="stylesheet">
     <link rel="stylesheet" href="style.css"/>
     <title></title>
   </head>
@@ -20,38 +20,35 @@
 <div id='table-container'>
 
     <div id='dealer-div'>
-      <div id='dealer-hand-container'></div>
-      <div id='dealer-tally'></div>
       <div id='d-bank'></div>
+      <div id='dealer-tally'></div>
+      <div id='dealer-hand-container'></div>
     </div>
 
+<img src="https://www.jp-uk.co.uk/know-how/wp-content/uploads/2015/11/6_gold-line.png"/>
 
     <div id='player-div'>
 
-        <div class='player-stats' id='player-bank'>
+        <div id='player-hand-container'></div>
+        <div id='player-text'></div>
+        <div id='button-container'>
 
+          <button id='hit'>Hit</button>
+          <button id='stay'>Stay</button>
+          <button id='clear'>Clear</button>
+          <button id='reset'>Reset</button>
         </div>
+        <div class='player-stats' id='player-bank'></div>
         <div class='player-stats' id='inputbox'>
           <input id='input' type="text" placeholder="Place Bet Here">
-          <button id='submit-bet'>Let's go. Deal!</button>
-
+          <button id='submit-bet'>Submit bet & deal</button>
         </div>
 
 
-      <div id='player-hand-container'>
-      </div>
 
-      <div id='button-container'>
-        <!-- <button id='deal'>DEAL</button> -->
-        <button id='hit'>HIT ME!</button>
-        <button id='stay'>STAY</button>
-        <button id='clear'>CLEAR</button>
-        <button id='reset'>RESET</button>
-      </div>
 
-      <div id='player-text'>
 
-      </div>
+
     </div>
 
 
