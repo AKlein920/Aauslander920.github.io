@@ -68,7 +68,7 @@ $(function() {
   makeAce: function() {
     for (var i = 0; i < this.faces.length; i++) {
       for (var k = 0; k < this.ranksAces.length; k++) {
-        this.cards.push(new Card(this.faces[i], 1, this.ranksAces[k]));
+        this.cards.push(new Card(this.faces[i], 11, this.ranksAces[k]));
       }
     }
   },
@@ -101,9 +101,18 @@ makeDeck.makeIt();
 var player = {
   pHand: [],
   pHandValue: function() {
-    var pHandVal = 0;
+    pHandVal = 0;
+    var aces = 0;
     for (var i = 0; i < this.pHand.length; i++) {
-      pHandVal = pHandVal + this.pHand[i].value;
+      var value = this.pHand[i].value;
+      if (value == 11) {
+        aces = aces + 1;
+      }
+      pHandVal = pHandVal + value;
+    }
+    while (pHandVal > 21 && aces > 0) {
+      pHandVal = pHandVal - 10;
+      aces = aces - 1;
     }
     return pHandVal;
   },
@@ -121,15 +130,16 @@ var player = {
   pHitMe: function() {
       var nextCard = makeDeck.cards.pop();
       player.pHand.push(nextCard);
+      player.pHandValue();
       $pNextCard = $('<div>');
       $pNextCard.text(nextCard.face + nextCard.rank);
       $pNextCard.addClass('player-card');
       $pHandContainer.append($pNextCard);
 
-      $playerText.text('Your score: ' + player.pHandValue());
+      $playerText.text('Your score: ' + pHandVal);
 
-      if (player.pHandValue() > 21) {
-        $playerText.html('Bust! Sorry, you lose. Bet again! Score: ' + player.pHandValue());
+      if (pHandVal > 21) {
+        $playerText.html('Bust! Sorry, you lose. Bet again! Score: ' + pHandVal);
         pUpdatedBank = pUpdatedBank - player.pBetValue();
         console.log(pUpdatedBank);
         $playerBank.html('You now have: $' + pUpdatedBank);
@@ -144,8 +154,8 @@ var player = {
         $playerBet.on('click', player.pBet);
       }
 
-      if (player.pHandValue() === 21) {
-        $playerText.html('You win! Score: ' + player.pHandValue() + '<br> Bet again!');
+      if (pHandVal === 21) {
+        $playerText.html('You win! Score: ' + pHandVal + '<br> Bet again!');
         pUpdatedBank = parseFloat(pUpdatedBank) + parseFloat(player.pBetValue());
         console.log(pUpdatedBank);
         $playerBank.html('High roller! You now have: $' + pUpdatedBank);
@@ -165,9 +175,18 @@ var dealer = {
   dHand: [],
   dBank: 100,
   dHandValue: function() {
-    var dHandVal = 0;
+    dHandVal = 0;
+    var dAces = 0;
     for (var i = 0; i < this.dHand.length; i++) {
-      dHandVal = dHandVal + this.dHand[i].value;
+      var dValue = this.dHand[i].value;
+      if (dValue == 11) {
+        dAces = dAces + 1;
+      }
+      dHandVal = dHandVal + dValue;
+    }
+    while (dHandVal > 21 && dAces > 0) {
+      dHandVal = dHandVal - 10;
+      dAces = dAces - 1;
     }
     return dHandVal;
   },
@@ -200,13 +219,15 @@ var dealer = {
          $pCard.addClass('player-card');
          $pHandContainer.append($pCard);
        }
-       $playerText.text('Your score: ' + player.pHandValue());
 
        // show the first dealer card in the dHand:
        $dCard = $('<div>');
        $dCard.text(dealer.dHand[0].face + dealer.dHand[0].rank);
        $dCard.addClass('dealer-card');
        $dHandContainer.append($dCard);
+
+       player.pHandValue();
+       $playerText.text('Your score: ' + pHandVal);
 
        $clearBtn.hide();
        $hitBtn.show();
@@ -238,12 +259,13 @@ $playerBet.on('click', player.pBet);
 
 ///////////////////////////////////////////////////////////////////////////
 var playerStay = function(){
+  dealer.dHandValue();
 
-    while (dealer.dHandValue() < 17) {
+    while (dHandVal < 17) {
       var dNextCard = makeDeck.cards.pop();
       dealer.dHand.push(dNextCard);
       dealer.dHandValue();
-      console.log(dealer.dHandValue());
+      console.log(dHandVal);
     }
 
   for (var i = 1; i < dealer.dHand.length; i++) {
@@ -255,30 +277,30 @@ var playerStay = function(){
 
   /////// Winning conditions ///////
 
-    if (dealer.dHandValue() > 21 || player.pHandValue() === 21) {
-      $playerText.html('You win! Score: ' + player.pHandValue() + '<br> Bet again!');
+    if (dHandVal > 21 || pHandVal === 21) {
+      $playerText.html('You win! Score: ' + pHandVal + '<br> Bet again!');
       pUpdatedBank = parseFloat(pUpdatedBank) + parseFloat(player.pBetValue());
       console.log(pUpdatedBank);
       $playerBank.html('High roller! You now have: $' + pUpdatedBank);
 
-    } else if (player.pHandValue() > dealer.dHandValue()) {
-      $playerText.html('You win! Score: ' + player.pHandValue() + '<br> Bet again!');
+    } else if (pHandVal > dHandVal) {
+      $playerText.html('You win! Score: ' + pHandVal + '<br> Bet again!');
       pUpdatedBank = parseFloat(pUpdatedBank) + parseFloat(player.pBetValue());
       console.log(pUpdatedBank);
       $playerBank.html('High roller! You now have: $' + pUpdatedBank);
 
   /////// Losing conditions ///////
 
-    } else if (dealer.dHandValue() > player.pHandValue()) {
-      $playerText.html('Sorry, you lose. Bet again! Score: ' + player.pHandValue());
+    } else if (dHandVal > pHandVal) {
+      $playerText.html('Sorry, you lose. Bet again! Score: ' + pHandVal);
       pUpdatedBank = pUpdatedBank - player.pBetValue();
       console.log(pUpdatedBank);
       $playerBank.html('You now have: $' + pUpdatedBank);
       dUpdatedBank = parseFloat(dUpdatedBank) + parseFloat(player.pBetValue());
       $dealerBank.html('Bank: $' + dUpdatedBank);
 
-    } else if (dealer.dHandValue() === 21 || player.pHandValue() > 21) {
-      $playerText.html('Sorry, you lose. Bet again! Score: ' + player.pHandValue());
+    } else if (dHandVal === 21 || pHandVal > 21) {
+      $playerText.html('Sorry, you lose. Bet again! Score: ' + pHandVal);
       pUpdatedBank = pUpdatedBank - player.pBetValue();
       console.log(pUpdatedBank);
       $playerBank.html('You now have: $' + pUpdatedBank);
@@ -287,11 +309,11 @@ var playerStay = function(){
 
 /////// Tie condition ///////
 
-    } else if (dealer.dHandValue() === player.pHandValue()) {
-      $playerText.html('You tied with the dealer. Score: ' + player.pHandValue() + '<br> Bet again!');
+    } else if (dHandVal === pHandVal) {
+      $playerText.html('You tied with the dealer. Score: ' + pHandVal + '<br> Bet again!');
     }
 
-    $dealerTally.text('Your score: ' + dealer.dHandValue());
+    $dealerTally.text('Your score: ' + dHandVal);
     $hitBtn.hide();
     $stayBtn.hide();
     $playerBet.on('click', player.pBet);
