@@ -120,10 +120,9 @@ var player = {
   pBetValue: function() {
     var storeBet = $playerInput.val();
     return storeBet;
-
   },
   pBet: function() {
-    $playerBank.html('Current bet: $' + player.pBetValue() + '<br> You currently have: $' + pUpdatedBank);
+    $playerBank.html('Current bet: $' + player.pBetValue() + '<br> You currently have: $' + (pUpdatedBank - player.pBetValue()));
     // $playerInput.val('');
     dealer.deal();
   },
@@ -215,16 +214,24 @@ var dealer = {
 
        for (var i = 0; i < player.pHand.length; i++) {
          var $pCard = $('<div>');
+        //  if (player.pHand[i].face == '♥' || player.pHand[i].face == '♦') {
+        //    player.pHand[i].css('color', 'red');
+        //  }
          $pCard.text(player.pHand[i].face + player.pHand[i].rank);
+
          $pCard.addClass('player-card');
          $pHandContainer.append($pCard);
        }
 
-       // show the first dealer card in the dHand:
+       // show the first dealer card in the dHand, and show the back of the second card:
        $dCard = $('<div>');
        $dCard.text(dealer.dHand[0].face + dealer.dHand[0].rank);
        $dCard.addClass('dealer-card');
        $dHandContainer.append($dCard);
+       $dFaceDown = $('<div>');
+       $dFaceDown.html('<img src="http://i.imgur.com/NWzvJmm.png">');
+       $dFaceDown.addClass('dealer-card');
+       $dHandContainer.append($dFaceDown);
 
        player.pHandValue();
        $playerText.text('Your score: ' + pHandVal);
@@ -256,9 +263,10 @@ $resetBtn.hide();
 $playerBet.on('click', player.pBet);
 
 
-
 ///////////////////////////////////////////////////////////////////////////
 var playerStay = function(){
+  $dFaceDown.remove();
+
   dealer.dHandValue();
 
     while (dHandVal < 17) {
@@ -313,7 +321,7 @@ var playerStay = function(){
       $playerText.html('You tied with the dealer. Score: ' + pHandVal + '<br> Bet again!');
     }
 
-    $dealerTally.text('Your score: ' + dHandVal);
+    $dealerTally.text('Dealer score: ' + dHandVal);
     $hitBtn.hide();
     $stayBtn.hide();
     $playerBet.on('click', player.pBet);

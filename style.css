@@ -59,10 +59,15 @@ h1 {
   margin: 0 auto;
 }
 
-img {
+#divider {
   margin: 0 auto;
   height: 5%;
   width: 80%;
+}
+
+img {
+  height: 100px;
+  width: 80px;
 }
 
 #player-bank {
