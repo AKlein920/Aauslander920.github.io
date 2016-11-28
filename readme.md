@@ -1,6 +1,6 @@
 Technologies used:
 
-- html
+- HTML
 - CSS
 - javascript
 - jquery
@@ -27,4 +27,14 @@ Within every condition, the player is prompted to bet again as long as he has mo
 
 If the number of cards within the deck becomes too low to continue the game (i.e. if there are only 2 cards left; at least 3 cards are required to deal a new hand), a new deck is created and shuffled. This allows for unlimited hands; the player does not have to refresh the browser.
 
-Link to live site:
+Link to live site: https://aauslander920.github.io/
+
+Things I'm proud of:
+- Creating a new shuffled deck every time the deck runs low
+- responsive design based on browser window size (though not necessarily mobile-ready)
+- a somewhat organized object-oriented Approach
+
+Things that still need work/could use tweaking:
+- Once the player's bankroll reaches 0, the player is prompted to reset the game with a reset button. As of now, the reset button is still not replenishing the bankroll to 100.
+- My code is only somewhat organized; I don't feel that it's as DRY as it should be. I would have liked to create different JS files that interact with one another, but I'm not yet sure how to do that. I would like more practice with the OOP approach.
+- In the future, I would like to have the player win automatically if his hand contains blackjack (and ace and a face card), and add a split & double down function.
