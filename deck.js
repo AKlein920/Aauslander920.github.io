@@ -157,7 +157,10 @@ var player = {
         $hitBtn.hide();
         $stayBtn.hide();
         $resetBtn.hide();
+        $playerBet.show();
+        $playerInput.show();
         $playerBet.on('click', player.pBet);
+
         if (pUpdatedBank == 0) {
           $playerText.html('Bust! Sorry, you lose. Also, you are broke. You now have: $100. Bet again, and click reset to deal.');
           $resetBtn.show();
@@ -171,7 +174,8 @@ var player = {
         pUpdatedBank = parseFloat(pUpdatedBank) + parseFloat(player.pBetValue());
         console.log(pUpdatedBank);
         $playerBank.html('High roller! You now have: $' + pUpdatedBank);
-
+        $playerBet.show();
+        $playerInput.show();
         $hitBtn.hide();
         $stayBtn.hide();
         $resetBtn.hide();
@@ -215,14 +219,21 @@ var dealer = {
   $dealerTally.empty();
   $pHandContainer.empty();
   $dHandContainer.empty();
-  $playerBet.off();
+  $playerBet.hide();
   $resetBtn.hide();
+  $playerInput.hide();
 
 
   $dealerTally.text("Dealer score: I bet you're curious");
 
     if (makeDeck.cards.length <= 2) {
       makeDeck.makeIt();
+      var pCardOne = makeDeck.cards.pop();
+      var pCardTwo = makeDeck.cards.pop();
+      var dCardOne = makeDeck.cards.pop();
+      var dCardTwo = makeDeck.cards.pop();
+      player.pHand.push(pCardOne, pCardTwo);
+      dealer.dHand.push(dCardOne, dCardTwo);
     } else if (makeDeck.cards.length > 2) {
       var pCardOne = makeDeck.cards.pop();
       var pCardTwo = makeDeck.cards.pop();
@@ -279,6 +290,9 @@ $playerBet.on('click', player.pBet);
 
 
 var playerStay = function(){
+  $playerBet.show();
+  $playerInput.show();
+
   if (makeDeck.cards.length <= 2) {
     makeDeck.makeIt();
   }
