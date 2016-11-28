@@ -341,7 +341,7 @@ var playerStay = function(){
       }
 
     // If dealer has 21:
-    } else if (dHandVal === 21) {
+    } else if (dHandVal === 21 && pHandVal < 21) {
       $playerText.html('Sorry, you lose. Bet again! Score: ' + pHandVal);
       pUpdatedBank = pUpdatedBank - player.pBetValue();
       console.log(pUpdatedBank);
