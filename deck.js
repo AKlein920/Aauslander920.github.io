@@ -147,7 +147,6 @@ var player = {
       if (pHandVal > 21) {
         $playerText.html('Bust! Sorry, you lose. Bet again! Score: ' + pHandVal);
         pUpdatedBank = pUpdatedBank - player.pBetValue();
-        console.log(pUpdatedBank);
         $playerBank.html('You now have: $' + pUpdatedBank);
         dUpdatedBank = parseFloat(dUpdatedBank) + parseFloat(player.pBetValue());
         $dealerBank.html('Bank: $' + dUpdatedBank);
@@ -162,10 +161,13 @@ var player = {
         $playerBet.on('click', player.pBet);
 
         if (pUpdatedBank == 0) {
-          $playerText.html('Bust! Sorry, you lose. Also, you are broke. You now have: $100. Bet again, and click reset to deal.');
+          $playerText.html('Bust! Sorry, you lose. Also, you are broke. We are nice, so you have a full bank now. Bet again, and click reset to deal. Score: ' + pHandVal);
           $resetBtn.show();
           $playerBet.hide();
-          pUpdatedBank === 100;
+          pUpdatedBank = 100;
+          console.log(pUpdatedBank);
+          $playerBank.html('You now have: $' + pUpdatedBank);
+
         }
       }
 
@@ -348,10 +350,12 @@ var playerStay = function(){
       dUpdatedBank = parseFloat(dUpdatedBank) + parseFloat(player.pBetValue());
       $dealerBank.html('Bank: $' + dUpdatedBank);
       if (pUpdatedBank == 0) {
-        $playerText.html('Sorry, you lose. Also, you are broke. You now have: $100. Bet again, and click reset to deal. Score: ' + pHandVal);
+        $playerText.html('Sorry, you lose. Also, you are broke. We are nice, so you have a full bank now. Bet again, and click reset to deal. Score: ' + pHandVal);
         $resetBtn.show();
         $playerBet.hide();
-        pUpdatedBank === 100;
+        pUpdatedBank = 100;
+        console.log(pUpdatedBank);
+        $playerBank.html('You now have: $' + pUpdatedBank);
       }
 
     // If dealer has 21:
@@ -363,10 +367,12 @@ var playerStay = function(){
       dUpdatedBank = parseFloat(dUpdatedBank) + parseFloat(player.pBetValue());
       $dealerBank.html('Bank: $' + dUpdatedBank);
       if (pUpdatedBank == 0) {
-        $playerText.html('Sorry, you lose. Also, you are broke. You now have: $100. Bet again, and click reset to deal.  Score: ' + pHandVal);
+        $playerText.html('Sorry, you lose. Also, you are broke. We are nice, so you have a full bank now. Bet again, and click reset to deal. Score: ' + pHandVal);
         $resetBtn.show();
         $playerBet.hide();
-        pUpdatedBank === 100;
+        pUpdatedBank = 100;
+        console.log(pUpdatedBank);
+        $playerBank.html('You now have: $' + pUpdatedBank);
       }
 
   /////// Tie condition ///////
@@ -392,8 +398,8 @@ $stayBtn.on('click', playerStay);
 var reset = function() {
   pUpdatedBank == 100;
   dealer.deal();
-  $playerBet.show();
-  $reset.hide();
+  // $playerBet.show();
+  $playerBank.show();
 
 }
 
