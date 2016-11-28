@@ -397,7 +397,7 @@ $stayBtn.on('click', playerStay);
 // reset function:
 var reset = function() {
   pUpdatedBank == 100;
-  dealer.deal();
+  player.pBet();
   // $playerBet.show();
   $playerBank.show();
 
