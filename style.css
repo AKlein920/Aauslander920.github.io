@@ -1,8 +1,52 @@
 body {
-  text-align: center;
-  margin: 0 auto;
+  margin: 0;
 }
 
-ul {
-  list-style: none;
+header {
+  height: 640px;
+  background: pink;
+  color: purple;
 }
+
+.headerText {
+  padding-top: 3em;
+  padding-bottom: 3em;
+  text-align: center;
+  height: 80%;
+}
+/* End Header */
+
+/* About */
+.about {
+  height: 640px;
+  background-color: gray;
+  margin-top: 0;
+}
+
+.about h1 {
+  margin-top: 0;
+}
+
+#Abi {
+  border: 5px solid pink;
+  border-radius: 25%;
+}
+/* End About */
+
+/* *********Skills********* */
+.skills {
+  height: 640px;
+  background: white;
+}
+
+.skills i {
+  font-size: 5em;
+}
+/* ***********End Skills********** */
+
+/* ***********Projects*********** */
+.projects {
+  background: gray;
+  height: 640px;
+}
+/* ***********END Projects*********** */
