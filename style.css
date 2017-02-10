@@ -2,10 +2,10 @@ body {
   margin: 0;
 }
 
-header {
-  height: 640px;
-  background: pink;
-  color: purple;
+@media only screen and (max-width: 600px) {
+  section {
+    padding: 150px;
+  }
 }
 
 .headerText {
@@ -16,10 +16,13 @@ header {
 }
 /* End Header */
 
+.navbar-fixed {
+  z-index: 9999;
+}
+
 /* About */
 .about {
   height: 640px;
-  background-color: gray;
   margin-top: 0;
 }
 
@@ -46,7 +49,6 @@ header {
 
 /* ***********Projects*********** */
 .projects {
-  background: gray;
   height: auto;
 }
 

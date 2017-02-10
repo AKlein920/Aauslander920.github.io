@@ -4,31 +4,47 @@
     <meta charset="utf-8">
     <title></title>
   </head>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
   <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/master/devicon.min.css">
 
   <link rel="stylesheet" href="style.css">
+  <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+
   <script src="https://use.fontawesome.com/02f3f8ed36.js"></script>
+  <script src='app.js'></script>
   <body>
 
       <header>
-        <nav>
-          <ul>
-            <a href="./Project1/index.html">
-              <li>First Project</li>
-            </a>
-            <a href="https://www.linkedin.com/in/abiauslander/">
-              <li>LinkedIn</li>
-            </a>
-            <a href="https://github.com/Aauslander920">
-              <li>GitHub</li>
-            </a>
-            <a href="mailto:abi920@gmail.com">
-              <li>Contact</li>
-            </a>
-          </ul>
-        </nav>
-        <div class="headerText">
+        <div class="navbar-fixed">
+          <nav>
+            <div class="nav-wrapper">
+              <a href="!#" class="brand-logo right">ATK</a>
+              <a href="#" data-activates="mobile-nav" class="button-collapse hide-on-med-and-up"><i class="material-icons">menu</i></a>
+              <ul class='left hide-on-small-and-down'>
+                <li><a href="#">First Project</a></li>
+                <li><a href="https://www.linkedin.com/in/abiauslander/">LinkedIn</a></li>
+                <li><a href="https://github.com/Aauslander920">GitHub</a></li>
+                <li><a href="mailto:abi920@gmail.com">Contact</a></li>
+              </ul>
+              <ul class="side-nav" id="mobile-nav">
+                <li><a href="#">First Project</a></li>
+                <li><a href="https://www.linkedin.com/in/abiauslander/">LinkedIn</a></li>
+                <li><a href="https://github.com/Aauslander920">GitHub</a></li>
+                <li><a href="mailto:abi920@gmail.com">Contact</a></li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      <section class="headerText">
           <h1>Abi Klein</h1>
           <h2>Full Stack Web Developer</h2>
           <div class="iconContainer">
@@ -37,8 +53,8 @@
             <i class="fa fa-envelope-square fa-5x" aria-hidden="true"></i>
             <i class="fa fa-facebook-square fa-5x" aria-hidden="true"></i>
           </div>
-        </div>
-      </header>
+      </section>
+
 
       <section class='about'>
         <h1>About</h1>
