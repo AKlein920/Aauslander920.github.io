@@ -6,7 +6,12 @@ $( document ).ready(function(){
       draggable: true
   });
 
-  
+  $('a').smoothScroll({
+    // offset: -77
+  });
+
+
+
 
   $('.collapsible').collapsible();
 });
