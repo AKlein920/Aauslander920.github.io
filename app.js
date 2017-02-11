@@ -5,4 +5,8 @@ $( document ).ready(function(){
       closeOnClick: true,
       draggable: true
   });
+
+  
+
+  $('.collapsible').collapsible();
 });
