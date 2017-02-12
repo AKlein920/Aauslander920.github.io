@@ -7,11 +7,14 @@ $( document ).ready(function(){
   });
 
   $('a').smoothScroll({
-    // offset: -77
+    offset: -64,
+    exclude: ['#test-swipe-1', '#test-swipe-2', '#test-swipe-3'],
+    excludeWithin: ['#tabs-swipe-demo']
   });
 
-
-
+  $('ul.tabs').tabs({
+    swipeable: true
+  });
 
   $('.collapsible').collapsible();
 });
