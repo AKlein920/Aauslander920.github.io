@@ -60,9 +60,26 @@ body {
   color: #424242;
 }
 
-.active {
+.tabs .tab a:hover {
+  color: #ffa000;
+}
+
+.tabs .tab {
+  transition: all 0.2s ease;
+}
+
+.tabs .tab:hover {
   color: #ffa000;
   background: #616161;
+}
+
+.tabs .tab a.active {
+  color: #ffffff;
+  /*background: #616161;*/
+}
+
+.tabs .indicator {
+  background-color: #ffffff;
 }
 
 #outsideWork, #education, #info {
@@ -72,6 +89,7 @@ body {
 
 #info {
   background: #616161;
+  color: #ffa000;
 }
 
 #education {
@@ -80,6 +98,10 @@ body {
 
 #outsideWork {
   background: #616161;
+}
+
+.card-content p {
+  font-size: 1.5em;
 }
 
 /* End About */
