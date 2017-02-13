@@ -31,7 +31,7 @@ body {
 
 /* About */
 .about {
-  /*padding-top: 25%;*/
+  padding-bottom: 25%;
   text-align: center;
 }
 
@@ -50,10 +50,6 @@ body {
   height: 100%;
 }
 
-#edList {
-  list-style-type: disc;
-}
-
 #info {
   background: pink;
 }
@@ -70,8 +66,12 @@ body {
 
 /* *********Skills********* */
 .skills {
-  height: 640px;
+  padding-bottom: 25%;
   background: white;
+}
+
+.skills h3 {
+  text-align: center;
 }
 
 .skills i {
@@ -87,19 +87,31 @@ body {
 /* ***********Projects*********** */
 .projects {
   height: auto;
+  padding-bottom: 25%;
+}
+
+.projects h3 {
+  text-align: center;
 }
 
 .collapsible.popout li {
   margin: 2.5%;
 }
 
-/*.collapsible-header:hover {
-  background: #1a237e;
-  color: white;
-}*/
+.collapsible-body > .row {
+  padding-bottom: 10%:
+}
 
 .title {
   display: inline-block;
+  /*transition: all 0.1s ease;*/
+}
+
+.title.left.fancy {
+  color: teal;
+  letter-spacing: .3em;
+  font-weight: bolder;
+  transform: scale(1.2);
 }
 
 .title.right i {
@@ -122,7 +134,6 @@ body {
   border-radius: 2%;
   border: 4px solid lightgray;
 }
-
 
 
 .description {

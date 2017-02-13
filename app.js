@@ -17,4 +17,11 @@ $( document ).ready(function(){
   });
 
   $('.collapsible').collapsible();
+
+  $('.li').hover(function(){
+    // console.log(this.children[0].children[0]);
+    $(this.children[0].children[1].children).toggleClass('colored');
+    $(this.children[0].children[0]).toggleClass('fancy');
+  });
+
 });
