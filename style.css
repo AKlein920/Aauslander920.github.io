@@ -47,9 +47,24 @@ body {
 
 #outsideWork, #education, #info {
   width: 100%;
-  height: 75%;
+  height: 100%;
 }
 
+#edList {
+  list-style-type: disc;
+}
+
+#info {
+  background: pink;
+}
+
+#education {
+  background: orange;
+}
+
+#outsideWork {
+  background: teal;
+}
 
 /* End About */
 
