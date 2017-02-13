@@ -50,7 +50,6 @@ body {
 
 #Abi {
   border: 5px solid #ffa000;
-  border-radius: 50%;
 }
 
 #tabs-swipe-demo {
@@ -63,7 +62,7 @@ body {
 
 .active {
   color: #ffa000;
-  background: #424242;
+  background: #616161;
 }
 
 #outsideWork, #education, #info {
@@ -72,15 +71,15 @@ body {
 }
 
 #info {
-  background: pink;
+  background: #616161;
 }
 
 #education {
-  background: orange;
+  background: #616161;
 }
 
 #outsideWork {
-  background: teal;
+  background: #616161;
 }
 
 /* End About */
