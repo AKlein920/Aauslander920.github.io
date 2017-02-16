@@ -192,4 +192,8 @@ body {
   padding-top: 2%;
   font-size: 1.15em;
 }
+
+.guest {
+  text-transform: lowercase;
+}
 /* ***********END Projects*********** */
